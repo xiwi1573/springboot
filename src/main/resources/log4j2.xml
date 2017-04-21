@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<Configuration status="warn">  
+    <Appenders>  
+        <Console name="Console" target="SYSTEM_OUT" follow="true">  
+            <PatternLayout>  
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n</pattern>  
+            </PatternLayout>  
+        </Console>  
+        <File name="File" fileName="D:/workspace/server/springboot/log/log.log">  
+            <PatternLayout>  
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n</pattern>  
+            </PatternLayout>  
+        </File>  
+    </Appenders>  
+    <Loggers>  
+        <Logger name="org.apache.catalina.util.LifecycleBase" level="warn" />  
+        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />  
+        <Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn" />  
+        <Logger name="org.hibernate.validator.internal.util.Version" level="warn" />  
+        <Logger name="org.springframework" level="warn" />  
+        <Logger name="com.github" level="warn" />  
+        <Root level="debug">  
+            <AppenderRef ref="Console" />  
+        </Root>  
+    </Loggers>  
+</Configuration>

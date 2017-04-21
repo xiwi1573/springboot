@@ -10,7 +10,12 @@ import cn.org.xiwi.springboot.msg.UserMsg;
 public class UserLoginImpl implements UserLogin {
 
 	private static Map<String, User> mCacheUserInfos = new HashMap<String, User>();
-	
+	static{
+		User user = new User();
+		user.setLoginName("xiwi");
+		user.setPwd("123456");
+		mCacheUserInfos.put(""+user.hashCode(), user);
+	}
 	@Override
 	public UserMsg login(String userName, String pwd, String loginType) {
 		synchronized (mCacheUserInfos) {
