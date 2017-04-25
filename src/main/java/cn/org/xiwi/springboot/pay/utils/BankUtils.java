@@ -1,7 +1,5 @@
 package cn.org.xiwi.springboot.pay.utils;
 
-import java.util.Arrays;
-
 import cn.org.xiwi.springboot.pay.bank.BankInfo;
 
 public class BankUtils {
@@ -2348,12 +2346,16 @@ public class BankUtils {
 		return null;
 	}
 	
+	public static void name() {
+		
+	}
+	
+	//https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=6228480402564890018&cardBinCheck=true
 	public static void main(String[] args) {
-		char[] cardNumber = { '6', '2', '2', '8', '2', '5', '0' };// 卡号
+		String card = "6228250";
+		char[] cardNumber = card.toCharArray();// 卡号
 		String name = BankUtils.getNameOfBank(cardNumber, 0);// 获取银行卡的信息
-		System.out.println(name);
 		String[] arr = name.split("\\.");
-		System.out.println(Arrays.toString(arr));
 		if (arr != null && arr.length == 2) {
 			System.out.println(getBank(arr[0]));
 		}
