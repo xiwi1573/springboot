@@ -2,13 +2,11 @@ package cn.org.xiwi.springboot.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cn.org.xiwi.springboot.utils.JsonUtils.ToolType;
-import cn.org.xiwi.springboot.utils.OkHttpUtils.MNetCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
