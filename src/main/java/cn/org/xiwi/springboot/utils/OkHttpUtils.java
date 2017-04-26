@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import cn.org.xiwi.springboot.msg.BankCardListMsg;
 import cn.org.xiwi.springboot.msg.BankCardValidateInfoMsg;
 import cn.org.xiwi.springboot.pay.bank.AliBankCardValidatedInfo;
 import cn.org.xiwi.springboot.utils.JsonUtils.ToolType;
@@ -227,25 +228,26 @@ public class OkHttpUtils {
 	public static void main(String[] args) {
 		OkHttpUtils httpUtils = OkHttpUtils.getInstance();
 
-		for (int i = 0; i < 1000; i++) {
-			new Thread(){
-				public void run() {
-					final MNetCallback<BankCardValidateInfoMsg> callback = new MNetCallback<BankCardValidateInfoMsg>(BankCardValidateInfoMsg.class){
+		for (int i = 0; i < 100000; i++) {
+//			new Thread(){
+//				public void run() {
+					final MNetCallback<BankCardListMsg> callback = new MNetCallback<BankCardListMsg>(BankCardListMsg.class){
 
 						@Override
-						public void onFailure(BankCardValidateInfoMsg error) {
+						public void onFailure(BankCardListMsg error) {
 							System.out.println(error);
 						}
 
 						@Override
-						public void onSuccess(BankCardValidateInfoMsg resp) {
+						public void onSuccess(BankCardListMsg resp) {
 							System.out.println(resp);
 						}};
 					httpUtils.doGet(
-							"http://localhost:8080/bankCardValidate?cardNum=6228480402564890018",
+//							"http://10.10.176.100:8080/bankCardValidate?cardNum=6228480402564890018",//BankCardValidateInfoMsg
+							"http://10.10.176.100:8080/bankCardList",//BankCardListMsg
 							null, null, callback);
-				};
-			}.start();
+//				};
+//			}.start();
 		}
 	}
 
@@ -262,6 +264,7 @@ public class OkHttpUtils {
 			try {
 				onFailure(JsonUtils.fromJson(ToolType.FASTJSON, msg, type));
 			} catch (Exception e) {
+				e.printStackTrace();
 				if (e instanceof com.alibaba.fastjson.JSONException) {
 					msg = "{}";
 				}else {
@@ -280,6 +283,7 @@ public class OkHttpUtils {
 			try {
 				onSuccess(JsonUtils.fromJson(ToolType.FASTJSON, content, type));
 			} catch (Exception e) {
+				e.printStackTrace();
 				if (e instanceof com.alibaba.fastjson.JSONException) {
 					content = "{}";
 				}else {
