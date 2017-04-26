@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import cn.org.xiwi.springboot.pay.bank.AliBankCardValidatedInfo;
 import cn.org.xiwi.springboot.utils.JsonUtils.ToolType;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -225,15 +226,15 @@ public class OkHttpUtils {
 	public static void main(String[] args) {
 		OkHttpUtils httpUtils = OkHttpUtils.getInstance();
 
-		final MNetCallback<String> callback = new MNetCallback<String>(String.class){
+		final MNetCallback<AliBankCardValidatedInfo> callback = new MNetCallback<AliBankCardValidatedInfo>(AliBankCardValidatedInfo.class){
 
 			@Override
-			void onFailure(String error) {
+			public void onFailure(AliBankCardValidatedInfo error) {
 				System.out.println(error);
 			}
 
 			@Override
-			void onSuccess(String resp) {
+			public void onSuccess(AliBankCardValidatedInfo resp) {
 				System.out.println(resp);
 			}};
 
@@ -286,7 +287,7 @@ public class OkHttpUtils {
 			}
 		}
 
-		abstract void onFailure(T error);
-		abstract void onSuccess(T resp);
+		public abstract void onFailure(T error);
+		public abstract void onSuccess(T resp);
 	}
 }

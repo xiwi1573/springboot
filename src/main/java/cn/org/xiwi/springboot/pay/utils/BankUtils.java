@@ -1,5 +1,8 @@
 package cn.org.xiwi.springboot.pay.utils;
 
+import java.util.Arrays;
+import java.util.List;
+
 import cn.org.xiwi.springboot.pay.bank.BankInfo;
 
 public class BankUtils {
@@ -2346,8 +2349,8 @@ public class BankUtils {
 		return null;
 	}
 	
-	public static void name() {
-		
+	public static List<BankInfo> getSupportBanks() {
+		return Arrays.asList(bankInfos);
 	}
 	
 	//https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=6228480402564890018&cardBinCheck=true
@@ -2358,6 +2361,10 @@ public class BankUtils {
 		String[] arr = name.split("\\.");
 		if (arr != null && arr.length == 2) {
 			System.out.println(getBank(arr[0]));
+		}
+		System.out.println();
+		for (BankInfo bankInfo : getSupportBanks()) {
+			System.out.println(bankInfo);
 		}
 	}
 }
