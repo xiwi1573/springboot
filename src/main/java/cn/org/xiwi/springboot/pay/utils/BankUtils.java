@@ -2311,7 +2311,6 @@ public class BankUtils {
 		for (int i = 0; i < 6; i++) {
 			longBin = (longBin * 10) + (charBin[i + offset] - 48);
 		}
-		System.out.println("bankBin: " + longBin);
 
 		int index = binarySearch(bankBin, longBin);
 

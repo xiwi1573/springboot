@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import cn.org.xiwi.springboot.msg.BankCardValidateInfoMsg;
 import cn.org.xiwi.springboot.pay.bank.AliBankCardValidatedInfo;
 import cn.org.xiwi.springboot.utils.JsonUtils.ToolType;
 import okhttp3.Call;
@@ -226,21 +227,26 @@ public class OkHttpUtils {
 	public static void main(String[] args) {
 		OkHttpUtils httpUtils = OkHttpUtils.getInstance();
 
-		final MNetCallback<AliBankCardValidatedInfo> callback = new MNetCallback<AliBankCardValidatedInfo>(AliBankCardValidatedInfo.class){
+		for (int i = 0; i < 1000; i++) {
+			new Thread(){
+				public void run() {
+					final MNetCallback<BankCardValidateInfoMsg> callback = new MNetCallback<BankCardValidateInfoMsg>(BankCardValidateInfoMsg.class){
 
-			@Override
-			public void onFailure(AliBankCardValidatedInfo error) {
-				System.out.println(error);
-			}
+						@Override
+						public void onFailure(BankCardValidateInfoMsg error) {
+							System.out.println(error);
+						}
 
-			@Override
-			public void onSuccess(AliBankCardValidatedInfo resp) {
-				System.out.println(resp);
-			}};
-
-		httpUtils.doGet(
-				"https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=6228480402564890018&cardBinCheck=true",
-				null, null, callback);
+						@Override
+						public void onSuccess(BankCardValidateInfoMsg resp) {
+							System.out.println(resp);
+						}};
+					httpUtils.doGet(
+							"http://localhost:8080/bankCardValidate?cardNum=6228480402564890018",
+							null, null, callback);
+				};
+			}.start();
+		}
 	}
 
 	public static abstract class MNetCallback<T> implements NetCallback {

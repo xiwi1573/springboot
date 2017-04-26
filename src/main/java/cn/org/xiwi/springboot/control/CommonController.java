@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.org.xiwi.springboot.impl.CommonImpl;
 import cn.org.xiwi.springboot.inf.CommonUtils;
+import cn.org.xiwi.springboot.msg.BankCardListMsg;
 import cn.org.xiwi.springboot.msg.BankCardValidateInfoMsg;
+import cn.org.xiwi.springboot.msg.BankInfoMsg;
 import cn.org.xiwi.springboot.msg.IDCardMsg;
 import cn.org.xiwi.springboot.pay.bank.AliBankCardValidatedInfo;
 import cn.org.xiwi.springboot.pay.bank.BankCardValidateInfo;
 import cn.org.xiwi.springboot.pay.bank.CardType;
+import cn.org.xiwi.springboot.pay.utils.BankUtils;
 import cn.org.xiwi.springboot.utils.OkHttpUtils;
 import cn.org.xiwi.springboot.utils.OkHttpUtils.MNetCallback;
 
@@ -40,6 +43,41 @@ public class CommonController {
 		return common.idCardInfo(format, idCardNum);
 	}
 
+	@RequestMapping("/bankCardList")
+	private BankCardListMsg bankCardListGet(){
+		BankCardListMsg bankCardListMsg = new BankCardListMsg();
+		bankCardListMsg.setCode(0);
+		bankCardListMsg.setMsg("处理成功");
+		bankCardListMsg.setData(BankUtils.getSupportBanks());
+		return bankCardListMsg;
+	}
+	
+	@RequestMapping("/bankCardBin")
+	private BankInfoMsg bankCardInfoGet(
+			@RequestParam(value = "cardBin", defaultValue = "") String cardBin) {
+		BankInfoMsg bankInfoMsg = new BankInfoMsg();
+		String[] arr = null;
+		if (cardBin.length() >= 6) {
+			char[] cardNumber = cardBin.toCharArray();// 卡号
+			String name = BankUtils.getNameOfBank(cardNumber, 0);// 获取银行卡的信息
+			arr = name.split("\\.");
+		}else {
+			bankInfoMsg.setCode(-1);
+			bankInfoMsg.setMsg("获取失败,长度不符合银行卡bin码规则");
+			return bankInfoMsg;
+		}
+		
+		if (arr != null && arr.length == 2) {
+			bankInfoMsg.setData(BankUtils.getBank(arr[0]));
+			bankInfoMsg.setCode(0);
+			bankInfoMsg.setMsg("获取成功");
+		}else {
+			bankInfoMsg.setCode(-1);
+			bankInfoMsg.setMsg("获取失败");
+		}
+		return bankInfoMsg;
+	}
+	
 	@RequestMapping("/bankCardValidate")
 	private BankCardValidateInfoMsg bankCardValidateInfoGet(
 			@RequestParam(value = "cardNum", defaultValue = "") String cardNum) {
