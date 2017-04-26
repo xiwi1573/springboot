@@ -229,25 +229,45 @@ public class OkHttpUtils {
 		OkHttpUtils httpUtils = OkHttpUtils.getInstance();
 
 		for (int i = 0; i < 100000; i++) {
+////			new Thread(){
+////				public void run() {
+//					final MNetCallback<BankCardListMsg> callback = new MNetCallback<BankCardListMsg>(BankCardListMsg.class){
+//
+//						@Override
+//						public void onFailure(BankCardListMsg error) {
+//							System.out.println(error);
+//						}
+//
+//						@Override
+//						public void onSuccess(BankCardListMsg resp) {
+//							System.out.println(resp);
+//						}};
+//					httpUtils.doGet(
+////							"http://10.10.176.100:8080/bankCardValidate?cardNum=6228480402564890018",//BankCardValidateInfoMsg
+//							"http://10.10.176.100:8080/bankCardList",//BankCardListMsg
+//							null, null, callback);
+////				};
+////			}.start();
+			
 //			new Thread(){
-//				public void run() {
-					final MNetCallback<BankCardListMsg> callback = new MNetCallback<BankCardListMsg>(BankCardListMsg.class){
+//			public void run() {
+				final MNetCallback<BankCardValidateInfoMsg> callback = new MNetCallback<BankCardValidateInfoMsg>(BankCardValidateInfoMsg.class){
 
-						@Override
-						public void onFailure(BankCardListMsg error) {
-							System.out.println(error);
-						}
+					@Override
+					public void onFailure(BankCardValidateInfoMsg error) {
+						System.out.println(error);
+					}
 
-						@Override
-						public void onSuccess(BankCardListMsg resp) {
-							System.out.println(resp);
-						}};
-					httpUtils.doGet(
-//							"http://10.10.176.100:8080/bankCardValidate?cardNum=6228480402564890018",//BankCardValidateInfoMsg
-							"http://10.10.176.100:8080/bankCardList",//BankCardListMsg
-							null, null, callback);
-//				};
-//			}.start();
+					@Override
+					public void onSuccess(BankCardValidateInfoMsg resp) {
+						System.out.println(resp);
+					}};
+				httpUtils.doGet(
+						"http://10.10.176.100:8080/bankCardValidate?cardNum=6228480402564890018",//BankCardValidateInfoMsg
+//						"http://10.10.176.100:8080/bankCardList",//BankCardListMsg
+						null, null, callback);
+//			};
+//		}.start();
 		}
 	}
 
