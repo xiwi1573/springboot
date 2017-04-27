@@ -31,6 +31,6 @@ public class BaseMsg<T> {
 
 	@Override
 	public String toString() {
-		return "BaseMsg [code=" + code + ", msg=" + msg + ", data=" + data + "]";
+		return "Msg [code=" + code + ", msg=" + msg + ", data=" + data + "]";
 	}
 }

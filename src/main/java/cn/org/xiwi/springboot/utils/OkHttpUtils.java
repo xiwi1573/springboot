@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import cn.org.xiwi.springboot.msg.BankCardListMsg;
+import cn.org.xiwi.springboot.msg.BankCardValidateInfoMsg;
+import cn.org.xiwi.springboot.pay.bank.AliBankCardValidatedInfo;
 import cn.org.xiwi.springboot.utils.JsonUtils.ToolType;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -225,23 +228,53 @@ public class OkHttpUtils {
 	public static void main(String[] args) {
 		OkHttpUtils httpUtils = OkHttpUtils.getInstance();
 
-		final MNetCallback<String> callback = new MNetCallback<String>(String.class){
+		for (int i = 0; i < 100000; i++) {
+////			new Thread(){
+////				public void run() {
+//					final MNetCallback<BankCardListMsg> callback = new MNetCallback<BankCardListMsg>(BankCardListMsg.class){
+//
+//						@Override
+//						public void onFailure(BankCardListMsg error) {
+//							System.out.println(error);
+//						}
+//
+//						@Override
+//						public void onSuccess(BankCardListMsg resp) {
+//							System.out.println(resp);
+//						}};
+//					httpUtils.doGet(
+////							"http://10.10.176.100:8080/bankCardValidate?cardNum=6228480402564890018",//BankCardValidateInfoMsg
+//							"http://10.10.176.100:8080/bankCardList",//BankCardListMsg
+//							null, null, callback);
+////				};
+////			}.start();
+			
+//			new Thread(){
+//			public void run() {
+				final MNetCallback<BankCardValidateInfoMsg> callback = new MNetCallback<BankCardValidateInfoMsg>(BankCardValidateInfoMsg.class){
 
-			@Override
-			void onFailure(String error) {
-				System.out.println(error);
-			}
+					@Override
+					public void onFailure(BankCardValidateInfoMsg error) {
+						System.out.println(error);
+					}
 
-			@Override
-			void onSuccess(String resp) {
-				System.out.println(resp);
-			}};
-
-		httpUtils.doGet(
-				"https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=6228480402564890018&cardBinCheck=true",
-				null, null, callback);
+					@Override
+					public void onSuccess(BankCardValidateInfoMsg resp) {
+						System.out.println(resp);
+					}};
+				httpUtils.doGet(
+						"http://127.0.0.1:8080/bankCardValidate?cardNum=6228480402564890018",//BankCardValidateInfoMsg
+//						"http://10.10.176.100:8080/bankCardList",//BankCardListMsg  10.10.176.100
+						null, null, callback);
+//			};
+//		}.start();
+		}
 	}
 
+	//http://wthrcdn.etouch.cn/WeatherApi?citykey=101010100
+	//http://flash.weather.com.cn/wmaps/xml/china.xml
+	//http://mobile.weather.com.cn/js/citylist.xml
+	
 	public static abstract class MNetCallback<T> implements NetCallback {
 
 		private Class<T> type;
@@ -255,10 +288,11 @@ public class OkHttpUtils {
 			try {
 				onFailure(JsonUtils.fromJson(ToolType.FASTJSON, msg, type));
 			} catch (Exception e) {
+				e.printStackTrace();
 				if (e instanceof com.alibaba.fastjson.JSONException) {
-					msg = "{}";
+					msg = "{code:-1,msg:\"数据解析异常\"}";
 				}else {
-					msg = "{}";
+					msg = "{code:-1,msg:\"数据解析异常\"}";
 				}
 				try {
 					onFailure(JsonUtils.fromJson(ToolType.FASTJSON, msg, type));
@@ -273,10 +307,11 @@ public class OkHttpUtils {
 			try {
 				onSuccess(JsonUtils.fromJson(ToolType.FASTJSON, content, type));
 			} catch (Exception e) {
+				e.printStackTrace();
 				if (e instanceof com.alibaba.fastjson.JSONException) {
-					content = "{}";
+					content = "{code:-1,msg:\"数据解析异常\"}";
 				}else {
-					content = "{}";
+					content = "{code:-1,msg:\"数据解析异常\"}";
 				}
 				try {
 					onFailure(JsonUtils.fromJson(ToolType.FASTJSON, content, type));
@@ -286,7 +321,7 @@ public class OkHttpUtils {
 			}
 		}
 
-		abstract void onFailure(T error);
-		abstract void onSuccess(T resp);
+		public abstract void onFailure(T error);
+		public abstract void onSuccess(T resp);
 	}
 }

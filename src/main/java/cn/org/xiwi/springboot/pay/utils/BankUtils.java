@@ -1,5 +1,9 @@
 package cn.org.xiwi.springboot.pay.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import cn.org.xiwi.springboot.pay.bank.BankInfo;
 
 public class BankUtils {
@@ -2308,7 +2312,6 @@ public class BankUtils {
 		for (int i = 0; i < 6; i++) {
 			longBin = (longBin * 10) + (charBin[i + offset] - 48);
 		}
-		System.out.println("bankBin: " + longBin);
 
 		int index = binarySearch(bankBin, longBin);
 
@@ -2346,8 +2349,15 @@ public class BankUtils {
 		return null;
 	}
 	
-	public static void name() {
+	private static List<BankInfo> cacheBankInfos;
+	
+	public static List<BankInfo> getSupportBanks() {
 		
+		if (cacheBankInfos == null) {
+			cacheBankInfos = Arrays.asList(bankInfos);
+		}
+		
+		return cacheBankInfos;
 	}
 	
 	//https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=6228480402564890018&cardBinCheck=true
@@ -2358,6 +2368,10 @@ public class BankUtils {
 		String[] arr = name.split("\\.");
 		if (arr != null && arr.length == 2) {
 			System.out.println(getBank(arr[0]));
+		}
+		System.out.println();
+		for (BankInfo bankInfo : getSupportBanks()) {
+			System.out.println(bankInfo);
 		}
 	}
 }

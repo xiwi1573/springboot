@@ -4,6 +4,10 @@ public class BankInfo {
 	private String bank;
 	private String bankName;
 	private String bankImg;
+	
+	public BankInfo() {
+		super();
+	}
 	public BankInfo(String bank, String bankName) {
 		super();
 		this.bank = bank;

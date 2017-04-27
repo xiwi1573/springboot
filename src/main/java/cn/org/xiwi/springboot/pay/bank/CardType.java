@@ -1,20 +1,25 @@
 package cn.org.xiwi.springboot.pay.bank;
 
 public enum CardType {
-    SAVINGS("DC","储蓄卡"),
-    VISA("CC","信用卡");
-    private String cardType;
-    private String cardTypeName;
-    CardType(String cardType,String cardTypeName){
-        this.cardType = cardType;
-        this.cardTypeName = cardTypeName;
-    }
+	SAVINGS("DC", "储蓄卡"), VISA("CC", "信用卡");
+	private String cardType;
+	private String cardTypeName;
 
-    @Override
-    public String toString() {
-        return "CardType{" +
-                "cardType='" + cardType + '\'' +
-                ", cardTypeName='" + cardTypeName + '\'' +
-                '}';
-    }
+	CardType(String cardType, String cardTypeName) {
+		this.cardType = cardType;
+		this.cardTypeName = cardTypeName;
+	}
+
+	public String getCardType() {
+		return cardType;
+	}
+
+	public String getCardTypeName() {
+		return cardTypeName;
+	}
+
+	@Override
+	public String toString() {
+		return "CardType{" + "cardType='" + cardType + '\'' + ", cardTypeName='" + cardTypeName + '\'' + '}';
+	}
 }
