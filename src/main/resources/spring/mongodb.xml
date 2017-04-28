@@ -23,10 +23,15 @@
 			threads-allowed-to-block-for-connection-multiplier="${mongo.threads_allowed_to_block_for_connection_multiplier}" 
 			connect-timeout="${mongo.connect_timeout}" 
 			max-wait-time="${mongo.max_wait_time}" 
+			socket-keep-alive="${mongo.socket_keep_alive}"
+			
 			socket-timeout="${mongo.socket_timeout}" />
 		
 	</mongo:mongo-client>
-	
+	<!-- write-timeout="0"
+			write-fsync="true"
+			slave-ok="true"
+			write-number="1" -->
 	<mongo:db-factory id="mongoDbFactory" dbname="${mongo.dbname}" mongo-ref="mongoClient" />
 	
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
