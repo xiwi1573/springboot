@@ -17,14 +17,14 @@
 	<!--credentials的配置形式是：用户名:密码@默认数据库-->
 	<mongo:mongo-client id="mongoClient" host="${mongo.host}" port="${mongo.port}" 
 		credentials="${mongo.username}:${mongo.password}@${mongo.dbname}">
-		<!--
+		
 		<mongo:client-options 
 			connections-per-host="${mongo.connections_per_host}" 
 			threads-allowed-to-block-for-connection-multiplier="${mongo.threads_allowed_to_block_for_connection_multiplier}" 
 			connect-timeout="${mongo.connect_timeout}" 
 			max-wait-time="${mongo.max_wait_time}" 
 			socket-timeout="${mongo.socket_timeout}" />
-		-->
+		
 	</mongo:mongo-client>
 	
 	<mongo:db-factory id="mongoDbFactory" dbname="${mongo.dbname}" mongo-ref="mongoClient" />
@@ -35,28 +35,3 @@
 	<!--另一种配置方式-->
 	<!--<mongo:template id="mongoTemplate" db-factory-ref="mongoDbFactory" write-concern="NORMAL" />-->
 </beans>
-
-<!-- <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
-	xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.1.xsd
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
-
-	<context:property-placeholder location="classpath:mongodb.properties" />
-	<mongo:mongo id="mongo" replica-set="${mongo.hostport}" />
-	<mongo:db-factory dbname="mongo_test" mongo-ref="mongo" />
-	
-	配置mongodb的用户及密码
-	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
-		<constructor-arg name="password" value="${mongo.password}" />
-		<constructor-arg name="username" value="${mongo.username}" />
-	</bean>
-	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg name="mongo" ref="mongo" />
-		<constructor-arg name="databaseName" value="mongo_test" />
-		<constructor-arg name="userCredentials" ref="userCredentials" />
-	</bean>
-
-</beans> -->
