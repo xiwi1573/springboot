@@ -34,8 +34,10 @@ import org.apache.http.util.EntityUtils;
 
 import com.alibaba.fastjson.JSONObject;
 
+@SuppressWarnings({ "unused", "deprecation" })
 public class NetworkUtil {
 
+	@SuppressWarnings("resource")
 	public static String httpPostInvoke(String url,Object obj) throws Exception {
 		
         DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -56,7 +58,8 @@ public class NetworkUtil {
         return null != str ? str:null;
     }
 	
-    public static String httpPostInvoke(String url, Map<String, Object> map) throws Exception {
+    @SuppressWarnings("resource")
+	public static String httpPostInvoke(String url, Map<String, Object> map) throws Exception {
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(url);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -187,7 +190,8 @@ public class NetworkUtil {
     }
     
     
-    public static String httpsPostInvoke(String url,Map<String, Object> map,String caName) throws Exception {
+    @SuppressWarnings("resource")
+	public static String httpsPostInvoke(String url,Map<String, Object> map,String caName) throws Exception {
     	InputStream inputStream = null;
     	HttpClient httpClient = new DefaultHttpClient();
     	String result = "";

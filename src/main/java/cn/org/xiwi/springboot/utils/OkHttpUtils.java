@@ -6,9 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import cn.org.xiwi.springboot.msg.BankCardListMsg;
 import cn.org.xiwi.springboot.msg.BankCardValidateInfoMsg;
-import cn.org.xiwi.springboot.pay.bank.AliBankCardValidatedInfo;
 import cn.org.xiwi.springboot.utils.JsonUtils.ToolType;
 import okhttp3.Call;
 import okhttp3.Callback;
