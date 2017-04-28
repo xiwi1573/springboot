@@ -1,15 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: springboot
 Implementation-Version: 0.0.1-SNAPSHOT
-<<<<<<< HEAD
 Built-By: mango
 Implementation-Vendor-Id: cn.org.xiwi
 Build-Jdk: 1.8.0_121
-=======
-Built-By: xiwi
-Implementation-Vendor-Id: cn.org.xiwi
-Build-Jdk: 1.8.0_91
->>>>>>> 271ae597ab20a5e66d92e5271daaf507fd72813d
 Implementation-URL: http://maven.apache.org
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.

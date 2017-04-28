@@ -178,6 +178,6 @@ public class MongoDBDaoImpl implements MongoDBDao {
 		System.out.println(list.get(0).get("name"));
 		System.out.println(list.get(0).get("_id"));
 		mongoDBDaoImpl.inSert("mongo_test", "runoob", "hello", "hello value");
-		mongoDBDaoImpl.name("mongo_test", "runoob", null, null);
+//		mongoDBDaoImpl.name("mongo_test", "runoob", null, null);
 	}
 }

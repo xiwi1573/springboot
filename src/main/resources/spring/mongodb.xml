@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.1.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<context:property-placeholder location="classpath:mongodb.properties" />
+
+	<mongo:mongo id="mongo" replica-set="${mongo.hostport}" />
+
+	<mongo:db-factory dbname="mongo_test" mongo-ref="mongo" />
+	<!-- 配置mongodb的用户及密码 -->
+	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
+		<constructor-arg name="username" value="xiwi" />
+		<constructor-arg name="password" value="xiwi123" />
+	</bean>
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongo" />
+		<constructor-arg ref="userCredentials" />
+		<constructor-arg name="databaseName" value="mongo_test" />
+	</bean>
+
+</beans>
+
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.1.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<context:property-placeholder location="classpath:mongodb.properties" />
+	<mongo:mongo id="mongo" replica-set="${mongo.hostport}" />
+	<mongo:db-factory dbname="mongo_test" mongo-ref="mongo" />
+	
+	配置mongodb的用户及密码
+	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
+		<constructor-arg name="password" value="${mongo.password}" />
+		<constructor-arg name="username" value="${mongo.username}" />
+	</bean>
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongo" ref="mongo" />
+		<constructor-arg name="databaseName" value="mongo_test" />
+		<constructor-arg name="userCredentials" ref="userCredentials" />
+	</bean>
+
+</beans> -->
