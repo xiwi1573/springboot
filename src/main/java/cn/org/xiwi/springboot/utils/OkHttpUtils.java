@@ -261,14 +261,18 @@ public class OkHttpUtils {
 						System.out.println(resp);
 					}};
 				httpUtils.doGet(
-						"http://10.10.176.100:8080/bankCardValidate?cardNum=6228480402564890018",//BankCardValidateInfoMsg
-//						"http://10.10.176.100:8080/bankCardList",//BankCardListMsg
+						"http://127.0.0.1:8080/bankCardValidate?cardNum=6228480402564890018",//BankCardValidateInfoMsg
+//						"http://10.10.176.100:8080/bankCardList",//BankCardListMsg  10.10.176.100
 						null, null, callback);
 //			};
 //		}.start();
 		}
 	}
 
+	//http://wthrcdn.etouch.cn/WeatherApi?citykey=101010100
+	//http://flash.weather.com.cn/wmaps/xml/china.xml
+	//http://mobile.weather.com.cn/js/citylist.xml
+	
 	public static abstract class MNetCallback<T> implements NetCallback {
 
 		private Class<T> type;
@@ -284,9 +288,9 @@ public class OkHttpUtils {
 			} catch (Exception e) {
 				e.printStackTrace();
 				if (e instanceof com.alibaba.fastjson.JSONException) {
-					msg = "{}";
+					msg = "{code:-1,msg:\"数据解析异常\"}";
 				}else {
-					msg = "{}";
+					msg = "{code:-1,msg:\"数据解析异常\"}";
 				}
 				try {
 					onFailure(JsonUtils.fromJson(ToolType.FASTJSON, msg, type));
@@ -303,9 +307,9 @@ public class OkHttpUtils {
 			} catch (Exception e) {
 				e.printStackTrace();
 				if (e instanceof com.alibaba.fastjson.JSONException) {
-					content = "{}";
+					content = "{code:-1,msg:\"数据解析异常\"}";
 				}else {
-					content = "{}";
+					content = "{code:-1,msg:\"数据解析异常\"}";
 				}
 				try {
 					onFailure(JsonUtils.fromJson(ToolType.FASTJSON, content, type));

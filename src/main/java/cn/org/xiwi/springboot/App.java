@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 @Configuration
-//@EnableAutoConfiguration
 @ImportResource(locations={"classpath:config/application-mina.xml"})
 public class App 
 {
