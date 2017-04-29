@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo" 
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+          http://www.springframework.org/schema/beans/spring-beans.xsd 
+          http://www.springframework.org/schema/context 
+          http://www.springframework.org/schema/context/spring-context.xsd 
+          http://www.springframework.org/schema/data/mongo 
+          http://www.springframework.org/schema/data/mongo/spring-mongo.xsd 
+          http://www.springframework.org/schema/util 
+          http://www.springframework.org/schema/util/spring-util.xsd" 
+		default-lazy-init="default">
+	
+	<!--credentials的配置形式是：用户名:密码@默认数据库-->
+	<mongo:mongo-client id="mongoClient" host="${mongo.host}" port="${mongo.port}" 
+		credentials="${mongo.username}:${mongo.password}@${mongo.dbname}">
+		
+		<mongo:client-options 
+			connections-per-host="${mongo.connections_per_host}" 
+			threads-allowed-to-block-for-connection-multiplier="${mongo.threads_allowed_to_block_for_connection_multiplier}" 
+			connect-timeout="${mongo.connect_timeout}" 
+			max-wait-time="${mongo.max_wait_time}" 
+			socket-keep-alive="${mongo.socket_keep_alive}"
+			
+			socket-timeout="${mongo.socket_timeout}" />
+		
+	</mongo:mongo-client>
+	<!-- write-timeout="0"
+			write-fsync="true"
+			slave-ok="true"
+			write-number="1" -->
+	<mongo:db-factory id="mongoDbFactory" dbname="${mongo.dbname}" mongo-ref="mongoClient" />
+	
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean>
+	<!--另一种配置方式-->
+	<!--<mongo:template id="mongoTemplate" db-factory-ref="mongoDbFactory" write-concern="NORMAL" />-->
+</beans>
