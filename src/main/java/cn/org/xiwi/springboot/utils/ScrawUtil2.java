@@ -1,5 +1,7 @@
 package cn.org.xiwi.springboot.utils;
 
+import static org.mockito.Matchers.intThat;
+
 import java.io.BufferedInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -173,26 +175,24 @@ public class ScrawUtil2 {
 	static String suffixes="avi|mpeg|3gp|mp3|mp4|wav|jpeg|gif|jpg|png|apk|exe|pdf|rar|zip|docx|doc";  
 	static Pattern pat=Pattern.compile("[\\w]+[\\.]("+suffixes+")");//正则判断  
 	
-	static String type = "people";//nature,game,food,artdesign,science,religion,music,army,interiordesign
 	static String prefix = "http://img95.699pic.com";
 	
 	public static void main(String[] args) {
-//		String[] datas = "nature,game,food,artdesign,science,religion,music,army,interiordesign,people".split(",");
-//		for (String string : datas) {
-//			type = string;
-//			max = 1;
-//			for (int i = 1; i <= max; i++) {
-//				String url = "http://699pic.com/"+type+"-"+i+".html";
-//				System.out.println("++++++++"+url);
-//				get1(url,type,i);
-//			}
-////			try {
-////				FileUtils.writeFile("D:/opt/imgs/xiwi2/"+type+"/json.json", JsonUtils.toJson(ToolType.FASTJSON, pics));
-////			} catch (Exception e1) {
-////				e1.printStackTrace();
-////			}
-//		}
-//		
+		String[] datas = "plant,backgrounds,car,animals,places,architecture,industry".split(",");  // plant   nature,game,food,artdesign,science,religion,music,army,interiordesign,people
+		for (String string : datas) {
+			max = 1;
+			for (int i = 1; i <= max; i++) {
+				String url = "http://699pic.com/"+string+"-"+i+".html";
+				System.out.println("++++++++"+url);
+				get1(url,string,i);
+			}
+			try {
+				FileUtils.writeFile("D:/opt/imgs/xiwi2/"+string+"/json.json", JsonUtils.toJson(ToolType.FASTJSON, pics));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		
 //		try {
 //			FileUtils.writeFile("D:/opt/imgs/xiwi2/json.json", JsonUtils.toJson(ToolType.FASTJSON, pics));
 //		} catch (Exception e1) {
@@ -207,6 +207,9 @@ public class ScrawUtil2 {
 				while (again()) {
 					index++;
 					System.out.println("retry count = "+index+(System.currentTimeMillis() / 1000 - startTime));
+					if (index > 5 && (Integer.valueOf(WindowsInfoUtil.getCpuRatioForWindows().replace("%", "")) > 20)) {
+						break;
+					}
 				}
 				System.out.println(System.currentTimeMillis() / 1000 - startTime);
 			}
@@ -219,10 +222,10 @@ public class ScrawUtil2 {
 	}
 	
 	private static boolean again() {
-		retry();
+//		retry();
 		try {
 			for (Pic pic : pics) {
-				downloadImg(pic.imgUrl, prefix, type, "_wh300.jpg", null);
+				downloadImg(pic.imgUrl, prefix, pic.type, "_wh300.jpg", null);
 			}
 		} catch (Exception e) {
 			return true;
