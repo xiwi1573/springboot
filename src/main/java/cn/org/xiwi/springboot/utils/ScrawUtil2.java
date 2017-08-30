@@ -1,7 +1,5 @@
 package cn.org.xiwi.springboot.utils;
 
-import static org.mockito.Matchers.intThat;
-
 import java.io.BufferedInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,6 +13,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.validation.constraints.Size;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,7 +24,7 @@ import cn.org.xiwi.springboot.utils.JsonUtils.ToolType;
 
 public class ScrawUtil2 {
 	public static void downloadImg(String urlStr,String prefix,String type,String endFix, Map<String, String> params) throws Exception {
-		String path = "D:/opt/imgs/xiwi2/"+type+urlStr.replace(prefix, "");
+		String path = "/Users/xiwi/Documents/design/pic/"+type+urlStr.replace(prefix, "");
 	    path = path.replace(endFix, "");
 	    if (FileUtils.isFileExist(path)) {
 	    	System.out.println("file is exit = "+path);
@@ -50,7 +50,7 @@ public class ScrawUtil2 {
 	        throw new Exception("请求异常状态值:" + conn.getResponseCode());
 	    BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
 	    
-	    System.out.println("---in--");
+	    System.out.println("---in--"+pics.size());
 		System.out.println(urlStr);
 		System.out.println(path);
 		System.out.println("---out--");
@@ -178,26 +178,28 @@ public class ScrawUtil2 {
 	static String prefix = "http://img95.699pic.com";
 	
 	public static void main(String[] args) {
-		String[] datas = "plant,backgrounds,car,animals,places,architecture,industry".split(",");  // plant   nature,game,food,artdesign,science,religion,music,army,interiordesign,people
-		for (String string : datas) {
-			max = 1;
-			for (int i = 1; i <= max; i++) {
-				String url = "http://699pic.com/"+string+"-"+i+".html";
-				System.out.println("++++++++"+url);
-				get1(url,string,i);
-			}
-			try {
-				FileUtils.writeFile("D:/opt/imgs/xiwi2/"+string+"/json.json", JsonUtils.toJson(ToolType.FASTJSON, pics));
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-		}
-		
-//		try {
-//			FileUtils.writeFile("D:/opt/imgs/xiwi2/json.json", JsonUtils.toJson(ToolType.FASTJSON, pics));
-//		} catch (Exception e1) {
-//			e1.printStackTrace();
+//		String[] datas = "emotions".split(",");  // new   plant,backgrounds,car,animals,places,architecture,industry  nature,game,food,artdesign,science,religion,music,army,interiordesign,people
+//		for (String string : datas) {
+//			max = 1;
+//			for (int i = 1; i <= max; i++) {
+//				String url = "http://699pic.com/"+string+"-"+i+".html";
+////				String url = "http://699pic.com/"+string+".html?page="+i;
+////				String url = "http://699pic.com/"+string+"/"+i+"/"; //html?page=
+//				System.out.println("++++++++"+url);
+//				get1(url,string,i);
+//			}
+//			try {
+//				FileUtils.writeFile("/Users/xiwi/Documents/design/pic/"+string+"/json.json", JsonUtils.toJson(ToolType.FASTJSON, pics));
+//			} catch (Exception e1) {
+//				e1.printStackTrace();
+//			}
 //		}
+//		
+////		try {
+////			FileUtils.writeFile("/Users/xiwi/Documents/design/pic/emotions/json.json", JsonUtils.toJson(ToolType.FASTJSON, pics));
+////		} catch (Exception e1) {
+////			e1.printStackTrace();
+////		}
 //		
 		long startTime = System.currentTimeMillis() / 1000;
 		new Thread(){
@@ -206,8 +208,8 @@ public class ScrawUtil2 {
 				int index = 0;
 				while (again()) {
 					index++;
-					System.out.println("retry count = "+index+(System.currentTimeMillis() / 1000 - startTime));
-					if (index > 5 && (Integer.valueOf(WindowsInfoUtil.getCpuRatioForWindows().replace("%", "")) > 20)) {
+					System.out.println("retry count = "+index+": "+(System.currentTimeMillis() / 1000 - startTime));
+					if (index > 5) {
 						break;
 					}
 				}
@@ -222,7 +224,7 @@ public class ScrawUtil2 {
 	}
 	
 	private static boolean again() {
-//		retry();
+		retry();
 		try {
 			for (Pic pic : pics) {
 				downloadImg(pic.imgUrl, prefix, pic.type, "_wh300.jpg", null);
@@ -234,9 +236,10 @@ public class ScrawUtil2 {
 	}
 	
 	private static void retry() {
-		StringBuilder sBuilder = FileUtils.readFile("D:/opt/imgs/xiwi2/json.json", "UTF-8");
+		StringBuilder sBuilder = FileUtils.readFile("/Users/xiwi/Documents/design/pic/emotions/json.json", "UTF-8");
 		try {
 			pics = JsonUtils.getList(ToolType.FASTJSON, sBuilder.toString(), Pic.class);
+			System.out.println("size = "+pics.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

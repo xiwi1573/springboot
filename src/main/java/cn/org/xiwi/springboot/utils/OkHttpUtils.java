@@ -303,7 +303,14 @@ public class OkHttpUtils {
 		@Override
 		public void onSuccess(int code, String content) {
 			try {
-				onSuccess(JsonUtils.fromJson(ToolType.FASTJSON, content, type));
+				
+				if (content != null && content.startsWith("<")) {
+					onSuccess((T) content);
+				}else {
+					onSuccess(JsonUtils.fromJson(ToolType.FASTJSON, content, type));
+				}
+				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				if (e instanceof com.alibaba.fastjson.JSONException) {
